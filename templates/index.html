@@ -71,33 +71,29 @@
           socket.emit('request_frame');
         });
 
+        videoFrame.src = '/static/images/gato.jpg';
+
         switchElement.addEventListener('change', function(){
 
           if (switchElement.checked){
 
+            socket.on("disconnect", () => {
+            socket.connect();
+            });
+            
             socket.on('new_frame', function(data) {
             frame_data = "data:image/jpeg;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array(data.frame)));
             videoFrame.src = frame_data;
-          });
+            });
 
           } else{
 
-            
+            socket.removeAllListeners('new_frame'); 
+            socket.disconnect();
             videoFrame.src = '/static/images/gato.jpg';
 
           }
         });
-
-        // socket.on('new_frame', function(data) {
-        //   frame_data = "data:image/jpeg;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array(data.frame)));
-        //   videoFrame.src = frame_data;
-        // });
-
-        // socket.on('new_frame', function(data) {
-        //     var frame_data = "data:image/jpeg;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array(data.frame)));
-        //     videoFrame.src = frame_data;
-        // });
-
        
 
 </script>
