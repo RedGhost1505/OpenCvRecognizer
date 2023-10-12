@@ -67,6 +67,10 @@
         var switchElement = document.getElementById('flexSwitchCheckDefault');
         var frame_data;
 
+        socket.on('connect', function() {
+          socket.emit('request_frame');
+        });
+
         switchElement.addEventListener('change', function(){
 
           if (switchElement.checked){
@@ -82,10 +86,6 @@
             videoFrame.src = '/static/images/gato.jpg';
 
           }
-        });
-
-        socket.on('connect', function() {
-          socket.emit('request_frame');
         });
 
         // socket.on('new_frame', function(data) {
