@@ -5,6 +5,8 @@ import cv2
 
 app = Flask(__name__)
 socketio = SocketIO(app)
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+cap = cv2.VideoCapture(0)
 
 @app.route('/')
 def index():
@@ -12,8 +14,8 @@ def index():
 
 @socketio.on('request_frame')
 def send_frame():
-    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-    cap = cv2.VideoCapture(0)
+    # face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    # cap = cv2.VideoCapture(0)
 
     while True:
         ret, frame = cap.read()
@@ -29,7 +31,13 @@ def send_frame():
 
         emit('new_frame', {'frame': frame_data}, broadcast=True)
 
+    # cap.release()
+
+@socketio.on('disconnect')
+def disconnection():
     cap.release()
+
+
 
 if __name__ == '__main__':
     socketio.run(app)

@@ -51,8 +51,8 @@
         <div class="purple-box">
         <img id="video-frame" src="" alt="Video Frame">
         </div>
-        <div class="form-check form-switch" style="height: fit-content; width: fit-content; margin: 0 auto; align-items: center; align-content: center;">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <div class="form-check form-switch" style="height: fit-content; width: fit-content; margin: 0 auto; align-items: center; align-content: center; margin-top: 1%;">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style="height: 30px; width: 50px;">
         </div>
     </div>
     
@@ -80,7 +80,7 @@
             socket.on("disconnect", () => {
             socket.connect();
             });
-            
+
             socket.on('new_frame', function(data) {
             frame_data = "data:image/jpeg;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array(data.frame)));
             videoFrame.src = frame_data;
