@@ -67,10 +67,6 @@
         var switchElement = document.getElementById('flexSwitchCheckDefault');
         var frame_data;
 
-        socket.on('connect', function() {
-          socket.emit('request_frame');
-        });
-
         videoFrame.src = '/static/images/gato.jpg';
 
         switchElement.addEventListener('change', function(){
@@ -79,7 +75,10 @@
 
             socket.on("disconnect", () => {
             socket.connect();
+            // socket.emit('pull_in');
             });
+
+            socket.emit('request_frame');
 
             socket.on('new_frame', function(data) {
             frame_data = "data:image/jpeg;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array(data.frame)));
@@ -90,6 +89,7 @@
 
             socket.removeAllListeners('new_frame'); 
             socket.disconnect();
+            socket.emit('pull_out');
             videoFrame.src = '/static/images/gato.jpg';
 
           }

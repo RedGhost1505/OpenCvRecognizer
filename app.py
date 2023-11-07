@@ -12,10 +12,18 @@ cap = cv2.VideoCapture(0)
 def index():
     return render_template('index.html')
 
+
+# @socketio.on('pull_in')
+# def int():
+#     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+#     cap = cv2.VideoCapture(0)
+
+
 @socketio.on('request_frame')
 def send_frame():
     # face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     # cap = cv2.VideoCapture(0)
+
 
     while True:
         ret, frame = cap.read()
@@ -33,11 +41,9 @@ def send_frame():
 
     # cap.release()
 
-@socketio.on('disconnect')
+@socketio.on('pull_out')
 def disconnection():
     cap.release()
-
-
 
 if __name__ == '__main__':
     socketio.run(app)
